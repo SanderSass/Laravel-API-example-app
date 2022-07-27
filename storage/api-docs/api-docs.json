@@ -1,0 +1,371 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Freedom Index API",
+        "description": "API publishes freedom info of the countries.",
+        "contact": {
+            "name": "Sander Siimann"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/freedom": {
+            "get": {
+                "tags": [
+                    "Freedom"
+                ],
+                "summary": "Displays a list of contries with freedom index.",
+                "description": "Returns list of countries with conutry freedom indexes.",
+                "operationId": "27ff1dabe62285b2aa92b95f4ecb4728",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "year": {
+                                            "type": "number",
+                                            "example": 2015
+                                        },
+                                        "iso_code": {
+                                            "type": "string",
+                                            "example": "AUT"
+                                        },
+                                        "country": {
+                                            "type": "string",
+                                            "example": "Austria"
+                                        },
+                                        "personal_freedom_score": {
+                                            "type": "Float",
+                                            "example": 9.38
+                                        },
+                                        "economic_freedom_score": {
+                                            "type": "Float",
+                                            "example": 7.66
+                                        },
+                                        "human_freedom_score": {
+                                            "type": "Float",
+                                            "example": 8.52
+                                        },
+                                        "human_freedom_rank": {
+                                            "type": "integer",
+                                            "example": 12
+                                        },
+                                        "human_freedom_quartile": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Freedom"
+                ],
+                "summary": "Insert new data of country freedom indexes.",
+                "description": "This CRUD method will let to insert a new data corresponding with freedom raw data of the country.",
+                "operationId": "6970ad7dfe15a7fd20688e49ef124131",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "year": {
+                                                "type": "integer"
+                                            },
+                                            "iso_code": {
+                                                "type": "String"
+                                            },
+                                            "country": {
+                                                "type": "String"
+                                            },
+                                            "personal_freedom_score": {
+                                                "type": "Float"
+                                            },
+                                            "economic_freedom_score": {
+                                                "type": "Float"
+                                            },
+                                            "human_freedom_score": {
+                                                "type": "Float"
+                                            },
+                                            "human_freedom_rank": {
+                                                "type": "Integer"
+                                            },
+                                            "human_freedom_quartile": {
+                                                "type": "Integer"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "year": 2015,
+                                    "iso_code": "AUT",
+                                    "country": "Austria",
+                                    "personal_freedom_score": 9.38,
+                                    "economic_freedom_score": 7.66,
+                                    "human_freedom_score": 8.52,
+                                    "human_freedom_rank": 12,
+                                    "human_freedom_quartile": 1
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "year": {
+                                            "type": "number",
+                                            "example": 2015
+                                        },
+                                        "iso_code": {
+                                            "type": "string",
+                                            "example": "AUT"
+                                        },
+                                        "country": {
+                                            "type": "string",
+                                            "example": "Austria"
+                                        },
+                                        "personal_freedom_score": {
+                                            "type": "Float",
+                                            "example": 9.38
+                                        },
+                                        "economic_freedom_score": {
+                                            "type": "Float",
+                                            "example": 7.66
+                                        },
+                                        "human_freedom_score": {
+                                            "type": "Float",
+                                            "example": 8.52
+                                        },
+                                        "human_freedom_rank": {
+                                            "type": "integer",
+                                            "example": 12
+                                        },
+                                        "human_freedom_quartile": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid"
+                    }
+                }
+            }
+        },
+        "/api/posts": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Displays a list of items.",
+                "description": "Returns list of items.",
+                "operationId": "3fda362e2e082b5357ac416e7767e435",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "title"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "description"
+                                        },
+                                        "created_at": {
+                                            "type": "timestamp",
+                                            "example": "2022-07-21 14:46:56"
+                                        },
+                                        "updated_at": {
+                                            "type": "timestamp",
+                                            "example": "2022-07-21 14:46:56"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Insert title and description of the topic.",
+                "description": "This CRUD method will let you to insert a new data with parameters title and description.",
+                "operationId": "dcb66200c3132996151884ac232cf439",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "title": {
+                                                "type": "String"
+                                            },
+                                            "description": {
+                                                "type": "String"
+                                            },
+                                            "created_at": {
+                                                "type": "timestamp"
+                                            },
+                                            "updated_at": {
+                                                "type": "timestamp"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "id": 1,
+                                    "title": "title",
+                                    "description": "description",
+                                    "created_at": 9.38,
+                                    "updated_at": 7.66
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "title"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "description"
+                                        },
+                                        "created_at": {
+                                            "type": "timestamp",
+                                            "example": "2022-07-21 14:46:56"
+                                        },
+                                        "updated_at": {
+                                            "type": "timestamp",
+                                            "example": "2022-07-21 14:46:56"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid"
+                    }
+                }
+            }
+        },
+        "/api/posts/{id}": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "This method will return a single post.",
+                "description": "Returns a single post.",
+                "operationId": "getPostsById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Post id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Update a post.",
+                "description": "Returns updated single post.",
+                "operationId": "updateProject",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Project id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        }
+    }
+}
