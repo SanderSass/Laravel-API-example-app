@@ -226,7 +226,7 @@
                     "Posts"
                 ],
                 "summary": "Insert title and description of the topic.",
-                "description": "This CRUD method will let you to insert a new data with parameters title and description.",
+                "description": "This CRUD method will let insert a new data with parameters title and description.",
                 "operationId": "dcb66200c3132996151884ac232cf439",
                 "requestBody": {
                     "content": {
@@ -235,20 +235,11 @@
                                 "properties": {
                                     "": {
                                         "properties": {
-                                            "id": {
-                                                "type": "integer"
-                                            },
                                             "title": {
                                                 "type": "String"
                                             },
                                             "description": {
                                                 "type": "String"
-                                            },
-                                            "created_at": {
-                                                "type": "timestamp"
-                                            },
-                                            "updated_at": {
-                                                "type": "timestamp"
                                             }
                                         },
                                         "type": "object"
@@ -256,18 +247,15 @@
                                 },
                                 "type": "object",
                                 "example": {
-                                    "id": 1,
                                     "title": "title",
-                                    "description": "description",
-                                    "created_at": 9.38,
-                                    "updated_at": 7.66
+                                    "description": "description"
                                 }
                             }
                         }
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Successful operation",
                         "content": {
                             "application/json": {
@@ -330,6 +318,9 @@
                     },
                     "400": {
                         "description": "Invalid"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
                     }
                 }
             },
@@ -352,11 +343,64 @@
                     }
                 ],
                 "requestBody": {
-                    "required": true
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "title": {
+                                                "type": "String"
+                                            },
+                                            "description": {
+                                                "type": "String"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "title": "title",
+                                    "description": "description"
+                                }
+                            }
+                        }
+                    }
                 },
                 "responses": {
-                    "202": {
+                    "200": {
                         "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Delete a post.",
+                "description": "Returns deleted single post.",
+                "operationId": "Delete the post.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Project id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Operation Successfully deleted"
                     },
                     "400": {
                         "description": "Bad Request"

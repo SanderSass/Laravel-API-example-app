@@ -54,7 +54,6 @@ class FreedomContoller extends Controller
 //        //
 //    }
 
-
     /**
      * @OA\Post(
      *      path="/api/freedom",

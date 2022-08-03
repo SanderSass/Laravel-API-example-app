@@ -7,6 +7,8 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Exception;
+use http\Env\Response;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -36,26 +38,31 @@ class PostController extends Controller
      */
     public function index(Post $posts)
     {
-        $posts = $posts->all();
-        return PostResource::collection($posts);
+        try
+        {
+            $posts = $posts->all();
+            return PostResource::collection($posts);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(["msg" => $exception->getMessage()], 400);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+//    /**
+//     * Show the form for creating a new resource.
+//     *
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function create()
+//    {
+//        //
+//    }
 
     /**
      * @OA\Post(
      *      path="/api/posts",
      *      tags={"Posts"},
      *      summary="Insert title and description of the topic.",
-     *      description="This CRUD method will let you to insert a new data with parameters title and description.",
+     *      description="This CRUD method will let insert a new data with parameters title and description.",
      *      @OA\RequestBody(
      *          @OA\MediaType(
      *              mediaType="application/json",
@@ -63,38 +70,23 @@ class PostController extends Controller
      *                      @OA\Property(
      *                          type="object",
      *                          @OA\Property(
-     *                              property="id",
-     *                              type="integer",
-     *                          ),
-     *                          @OA\Property(
      *                              property="title",
      *                              type="String",
      *                          ),
      *                          @OA\Property(
      *                              property="description",
-     *                          type="String",
-     *                          ),
-     *                          @OA\Property(
-     *                              property="created_at",
-     *                              type="timestamp",
-     *                          ),
-     *                          @OA\Property(
-     *                              property="updated_at",
-     *                              type="timestamp",
-     *                          ),
+     *                              type="String",
+     *                          )
      *                      ),
      *                      example={
-     *                          "id": 1,
      *                          "title": "title",
-     *                          "description": "description",
-     *                          "created_at": 9.38,
-     *                          "updated_at": 7.66,
+     *                          "description": "description"
      *                      }
      *             )
      *         )
      *      ),
      *      @OA\Response(
-     *          response=200,
+     *          response=201,
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="id", type="number", example=1),
@@ -112,9 +104,12 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        $posts = Post::create($request->all());
-
-        return new PostResource($posts);
+        try {
+            $posts = Post::create($request->all());
+            return new PostResource($posts);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(["msg" => $exception->getMessage()], 400);
+        }
     }
 
     /**
@@ -140,25 +135,33 @@ class PostController extends Controller
      *     @OA\Response(
      *     response=400,
      *     description="Invalid",
-     *     )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
      * )
      */
     public function show(Post $post)
     {
-        return new PostResource($post);
+        try {
+            return new PostResource($post);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(["msg" => $exception -> getMessage()], 404);
+        }
     }
 
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Post $post)
-    {
-        //
-    }
+//    /**
+//     * Show the form for editing the specified resource.
+//     *
+//     * @param  \App\Models\Post  $post
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function edit(Post $post)
+//    {
+//        //
+//    }
 
     /**
      * @OA\Put(
@@ -177,10 +180,29 @@ class PostController extends Controller
      *          )
      *      ),
      *      @OA\RequestBody(
-     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  @OA\Property(
+     *                      type="object",
+     *                      @OA\Property(
+     *                          property="title",
+     *                          type="String"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="description",
+     *                          type="String"
+     *                      )
+     *                  ),
+     *                  example={
+     *                      "title": "title",
+     *                      "description": "description"
+     *                  }
+     *              )
+     *          )
      *      ),
      *      @OA\Response(
-     *          response=202,
+     *          response=200,
      *          description="Successful operation",
      *       ),
      *      @OA\Response(
@@ -195,24 +217,54 @@ class PostController extends Controller
      */
     public function update(StorePostRequest $request, Post $post)
     {
-        $post->update($request->all());
-
-        return new PostResource($post);
+        try
+        {
+            $post->update($request->all());
+            return new PostResource($post);
+        } catch (ModelNotFoundException $exception)
+        {
+            return response()->json(["msg" => $exception -> getMessage()], 404);
+        }
     }
 
     /**
-     * @param Post $post
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @OA\Delete(
+     *      path="/api/posts/{id}",
+     *      operationId="Delete the post.",
+     *      tags={"Posts"},
+     *      summary="Delete a post.",
+     *      description="Returns deleted single post.",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Project id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=204,
+     *          description="Operation Successfully deleted",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
      */
     public function destroy(Post $post)
     {
-        $post->delete();
-
-        return response(null, 204);
-    }
-
-    private function isEmpty(): bool
-    {
-        return empty($post);
+        try
+        {
+            $post->delete();
+            return response() -> json(["msg" => $post . " is deleted!"], 204);
+        } catch (ModelNotFoundException $exception) {
+            return response() -> json(["msg" => $exception -> getMessage()], 404);
+        }
     }
 }
